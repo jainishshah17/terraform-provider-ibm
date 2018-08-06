@@ -87,7 +87,7 @@ variable "vm-os-reference-code" {
 }
 
 variable "vm-post-install-script-uri" {
-  default = "https://raw.githubusercontent.com/hkantare/test/master/nginx.sh"
+  default = "https://raw.githubusercontent.com/jainishshah17/terraform-provider-ibm/master/examples/ibm-compute-asg/artifactory.sh"
 }
 
 variable "scale-policy-name" {
