@@ -1,4 +1,5 @@
 variable "ssh_public_key" {
+
 }
 
 variable "ssh-label" {
@@ -18,7 +19,7 @@ variable "lb-dedicated" {
 }
 
 variable "lb-servvice-group-port" {
-  default = 80
+  default = 8081
 }
 
 variable "lb-servvice-group-routing-method" {
@@ -58,7 +59,7 @@ variable "auto-scale-termination-policy" {
 }
 
 variable "auto-scale-lb-service-port" {
-  default = 80
+  default = 8081
 }
 
 variable "auto-scale-lb-service-health-check-type" {
