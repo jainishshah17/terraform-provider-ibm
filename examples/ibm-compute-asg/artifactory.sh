@@ -4,7 +4,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 # install the wget and curl
 apt-get update
-apt-get -y install wget curl>> /tmp/install-curl.log 2>&1
+apt-get -y install wget curl>> /tmp/install_curl.log 2>&1
 
 apt-get update -y
 apt-get install -y software-properties-common curl > /tmp/install.log
@@ -13,7 +13,7 @@ apt-get install -y software-properties-common curl > /tmp/install.log
 add-apt-repository -y ppa:webupd8team/java
 apt-get update
 echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | debconf-set-selections
-apt-get install -y oracle-java8-installer>> /tmp/install-java8.log 2>&1
+apt-get install -y oracle-java8-installer>> /tmp/install_java8.log 2>&1
 apt-get install oracle-java8-set-default
 
 #Generate Self-Signed Cert
@@ -25,7 +25,7 @@ openssl req -nodes -x509 -newkey rsa:4096 -keyout /etc/pki/tls/private/example.k
 echo "deb https://jfrog.bintray.com/artifactory-pro-debs xenial main" | tee -a /etc/apt/sources.list
 curl https://bintray.com/user/downloadSubjectPublicKey?username=jfrog | apt-key add -
 apt-get update -y
-apt-get -y install nginx>> /tmp/install-nginx.log 2>&1
+apt-get -y install nginx>> /tmp/install_nginx.log 2>&1
 apt-get install -y jfrog-artifactory-pro > /tmp/install_artifactory.log
 
 #Install database drivers
