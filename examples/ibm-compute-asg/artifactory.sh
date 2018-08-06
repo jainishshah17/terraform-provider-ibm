@@ -3,9 +3,11 @@ apt-get update -y
 apt-get install -y software-properties-common curl > /tmp/install.log
 
 # Install Java 8
-add-apt-repository "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main"
+add-apt-repository ppa:webupd8team/java -y
 apt-get update -y
+echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | debconf-set-selections
 apt-get install -y oracle-java8-installer > /tmp/install_java8.log
+apt-get install oracle-java8-set-default
 
 # Install Artifactory
 echo "deb https://jfrog.bintray.com/artifactory-pro-debs xenial main" | tee -a /etc/apt/sources.list
@@ -14,4 +16,4 @@ apt-get update -y
 apt-get install -y jfrog-artifactory-pro > /tmp/install_artifactory.log
 
 # Start Artifactory service
-systemctl start artifactory.service
+service artifactory start
