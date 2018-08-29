@@ -84,7 +84,7 @@ EOF
 mkdir -p /var/opt/jfrog/artifactory/etc/security
 
 cat <<EOF >/var/opt/jfrog/artifactory/etc/security/master.key
-  ${MASTER_KEY}
+  FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 EOF
 
 HOSTNAME=$(hostname -i)
