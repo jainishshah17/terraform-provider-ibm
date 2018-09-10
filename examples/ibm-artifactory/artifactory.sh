@@ -20,6 +20,10 @@ apt-get install oracle-java8-set-default
 mkdir -p /etc/pki/tls/private/ /etc/pki/tls/certs/
 openssl req -nodes -x509 -newkey rsa:4096 -keyout /etc/pki/tls/private/example.key -out /etc/pki/tls/certs/example.pem -days 356 -subj "/C=US/ST=California/L=SantaClara/O=IT/CN=*.localhost"
 
+# Reading user metadata
+echo "Mounting metadata.json file"
+mkdir /tmp/metadata
+mount /dev/xvdh1 /tmp/metadata
 
 # Install Artifactory
 echo "deb https://jfrog.bintray.com/artifactory-pro-debs xenial main" | tee -a /etc/apt/sources.list
@@ -72,6 +76,14 @@ server {
 }
 EOF
 
+cat <<EOF >/var/opt/jfrog/artifactory/etc/db.properties
+  type=mysql
+  driver=com.mysql.jdbc.Driver
+  url=jdbc:mysql://${db_url}/${db_name}?characterEncoding=UTF-8&elideSetAutoCommits=true
+  username=${db_user}
+  password=${db_password}
+EOF
+
 cat <<EOF >/var/opt/jfrog/artifactory/etc/ha-node.properties
 node.id=art1
 artifactory.ha.data.dir=/var/opt/jfrog/artifactory/data
@@ -94,10 +106,6 @@ sed -i -e "s/172.25.0.3/$HOSTNAME/" /var/opt/jfrog/artifactory/etc/ha-node.prope
 
 echo "artifactory.ping.allowUnauthenticated=true" >> /var/opt/jfrog/artifactory/etc/artifactory.system.properties
 chown artifactory:artifactory -R /var/opt/jfrog/artifactory/*  && chown artifactory:artifactory -R /var/opt/jfrog/artifactory/etc/security && chown artifactory:artifactory -R /var/opt/jfrog/artifactory/etc/*
-
-echo "Mounting metadata.json file"
-mkdir /tmp/metadata
-mount /dev/xvdh1 /tmp/metadata
 
 # start Artifactory
 sleep $((RANDOM % 120))

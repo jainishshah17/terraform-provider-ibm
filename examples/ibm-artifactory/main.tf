@@ -45,7 +45,7 @@ resource "ibm_compute_autoscale_group" "sample-http-cluster" {
     datacenter              = "${var.datacenter}"
     ssh_key_ids             = ["${ibm_compute_ssh_key.ssh_key_performance.id}"]
     post_install_script_uri = "${var.vm-post-install-script-uri}"
-    user_metadata           = "{\"master_key\":\"${var.master_key}\"}"
+    user_metadata           = "#!/bin/bash \n export db_url=${var.database_url} \n export db_name=${var.database_name} \n export db_user=${var.database_user} \n export db_password=${var.database_password} \n"
   }
 }
 
