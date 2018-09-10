@@ -95,6 +95,10 @@ sed -i -e "s/172.25.0.3/$HOSTNAME/" /var/opt/jfrog/artifactory/etc/ha-node.prope
 echo "artifactory.ping.allowUnauthenticated=true" >> /var/opt/jfrog/artifactory/etc/artifactory.system.properties
 chown artifactory:artifactory -R /var/opt/jfrog/artifactory/*  && chown artifactory:artifactory -R /var/opt/jfrog/artifactory/etc/security && chown artifactory:artifactory -R /var/opt/jfrog/artifactory/etc/*
 
+echo "Mounting metadata.json file"
+mkdir /tmp/metadata
+mount /dev/xvdh1 /tmp/metadata
+
 # start Artifactory
 sleep $((RANDOM % 120))
 service artifactory start
