@@ -24,6 +24,7 @@ openssl req -nodes -x509 -newkey rsa:4096 -keyout /etc/pki/tls/private/example.k
 echo "Mounting metadata.json file"
 mkdir /tmp/metadata
 mount /dev/xvdh1 /tmp/metadata
+chmod +x /tmp/metadata/meta.js && ./tmp/metadata/meta.js
 
 # Install Artifactory
 echo "deb https://jfrog.bintray.com/artifactory-pro-debs xenial main" | tee -a /etc/apt/sources.list
