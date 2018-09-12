@@ -35,42 +35,6 @@ curl -L -o  /opt/jfrog/artifactory/tomcat/lib/postgresql-9.4.1212.jar https://jd
 #Configuring nginx
 rm /etc/nginx/sites-enabled/default
 
-cat <<EOF >/etc/nginx/conf.d/artifactory.conf
-ssl_certificate      /etc/pki/tls/certs/example.pem;
-ssl_certificate_key  /etc/pki/tls/private/example.key;
-ssl_session_cache shared:SSL:1m;
-ssl_prefer_server_ciphers   on;
-## server configuration
-server {
-  listen 443 ssl;
-  listen 80 ;
-  server_name ~(?<repo>.+)\\.artifactory artifactory;
-  if (\$http_x_forwarded_proto = '') {
-    set \$http_x_forwarded_proto  \$scheme;
-  }
-  ## Application specific logs
-  ## access_log /var/log/nginx/artifactory-access.log timing;
-  ## error_log /var/log/nginx/artifactory-error.log;
-  rewrite ^/$ /artifactory/webapp/ redirect;
-  rewrite ^/artifactory/?(/webapp)?$ /artifactory/webapp/ redirect;
-  rewrite ^/(v1|v2)/(.*) /artifactory/api/docker/\$repo/\$1/\$2;
-  chunked_transfer_encoding on;
-  client_max_body_size 0;
-  location /artifactory/ {
-    proxy_read_timeout  900;
-    proxy_pass_header   Server;
-    proxy_cookie_path   ~*^/.* /;
-    proxy_pass          http://127.0.0.1:8081/artifactory/;
-    proxy_set_header    X-Artifactory-Override-Base-Url
-    \$http_x_forwarded_proto://\$host:\$server_port/artifactory;
-    proxy_set_header    X-Forwarded-Port  \$server_port;
-    proxy_set_header    X-Forwarded-Proto \$http_x_forwarded_proto;
-    proxy_set_header    Host              \$http_host;
-    proxy_set_header    X-Forwarded-For   \$proxy_add_x_forwarded_for;
-   }
-}
-EOF
-
 mkdir -p /var/opt/jfrog/artifactory/etc/security
 
 HOSTNAME=$(hostname)
@@ -79,7 +43,7 @@ sed -i -e "s/127.0.0.1/$HOSTNAME/" /var/opt/jfrog/artifactory/etc/ha-node.proper
 sed -i -e "s/172.25.0.3/$HOSTNAME/" /var/opt/jfrog/artifactory/etc/ha-node.properties
 
 echo "artifactory.ping.allowUnauthenticated=true" >> /var/opt/jfrog/artifactory/etc/artifactory.system.properties
-chown artifactory:artifactory -R /var/opt/jfrog/artifactory/*  && chown artifactory:artifactory -R /var/opt/jfrog/artifactory/etc/security && chown artifactory:artifactory -R /var/opt/jfrog/artifactory/etc/*
+chown artifactory:artifactory -R /var/opt/jfrog/  && chown artifactory:artifactory -R /var/opt/jfrog/artifactory/etc/security && chown artifactory:artifactory -R /var/opt/jfrog/artifactory/etc/*
 
 # start Artifactory
 sleep $((RANDOM % 120))
