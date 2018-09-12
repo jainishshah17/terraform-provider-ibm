@@ -1,12 +1,23 @@
 #cloud-config
 write_files:
-  - path: /tmp/tomcat-users.xml
+  - path: /var/opt/jfrog/artifactory/etc/db.properties
+    permissions: 0644
     content: |
-      tesing done
-runcmd:
-  # Set random Tomcat admin password.
-  - echo "$db_user" >> /tmp/done.txt
-  - echo "$db_password" >> /tmp/done.txt
-  - echo "$db_name" >> /tmp/done.txt
-  - echo "$db_url" >> /tmp/done.txt
-  - echo "done!" >> /tmp/done.txt
+      type=mysql
+      driver=com.mysql.jdbc.Driver
+      url=jdbc:mysql://${db_url}/${db_name}?characterEncoding=UTF-8&elideSetAutoCommits=true
+      username=${db_user}
+      password=${db_password}
+  - path: /var/opt/jfrog/artifactory/etc/security/master.key
+    permissions: 0644
+    content: |
+      ${master_key}
+  - path: /var/opt/jfrog/artifactory/etc/ha-node.properties
+    permissions: 0644
+    content: |
+      node.id=art1
+      artifactory.ha.data.dir=/var/opt/jfrog/artifactory/data
+      context.url=http://127.0.0.1:8081/artifactory
+      membership.port=10001
+      hazelcast.interface=172.25.0.3
+      primary=true

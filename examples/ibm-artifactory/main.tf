@@ -57,6 +57,7 @@ data "template_file" "art_init" {
     db_password = "${var.database_password}"
     db_name = "${var.database_name}"
     db_url = "${var.database_url}"
+    master_key = "${var.master_key}"
   }
 }
 

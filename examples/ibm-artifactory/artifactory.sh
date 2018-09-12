@@ -77,28 +77,7 @@ server {
 }
 EOF
 
-cat <<EOF >/var/opt/jfrog/artifactory/etc/db.properties
-  type=mysql
-  driver=com.mysql.jdbc.Driver
-  url=jdbc:mysql://${db_url}/${db_name}?characterEncoding=UTF-8&elideSetAutoCommits=true
-  username=${db_user}
-  password=${db_password}
-EOF
-
-cat <<EOF >/var/opt/jfrog/artifactory/etc/ha-node.properties
-node.id=art1
-artifactory.ha.data.dir=/var/opt/jfrog/artifactory/data
-context.url=http://127.0.0.1:8081/artifactory
-membership.port=10001
-hazelcast.interface=172.25.0.3
-primary=true
-EOF
-
 mkdir -p /var/opt/jfrog/artifactory/etc/security
-
-cat <<EOF >/var/opt/jfrog/artifactory/etc/security/master.key
-  FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-EOF
 
 HOSTNAME=$(hostname)
 sed -i -e "s/art1/art-$(date +%s$RANDOM)/" /var/opt/jfrog/artifactory/etc/ha-node.properties
