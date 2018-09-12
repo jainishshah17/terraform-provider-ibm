@@ -20,12 +20,6 @@ apt-get install oracle-java8-set-default
 mkdir -p /etc/pki/tls/private/ /etc/pki/tls/certs/
 openssl req -nodes -x509 -newkey rsa:4096 -keyout /etc/pki/tls/private/example.key -out /etc/pki/tls/certs/example.pem -days 356 -subj "/C=US/ST=California/L=SantaClara/O=IT/CN=*.localhost"
 
-# Reading user metadata
-echo "Mounting metadata.json file"
-mkdir /tmp/metadata
-mount /dev/xvdh1 /tmp/metadata
-chmod +x /tmp/metadata/meta.js && ./tmp/metadata/meta.js
-
 # Install Artifactory
 echo "deb https://jfrog.bintray.com/artifactory-pro-debs xenial main" | tee -a /etc/apt/sources.list
 curl https://bintray.com/user/downloadSubjectPublicKey?username=jfrog | apt-key add -
