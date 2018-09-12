@@ -6,11 +6,9 @@ variable "master_key" {
 }
 
 variable "database_url" {
-  default = "35.232.47.144:3306"
 }
 
 variable "database_name" {
-  default = "artdb"
 }
 
 variable "database_user" {
@@ -38,7 +36,7 @@ variable "lb-dedicated" {
 }
 
 variable "lb-servvice-group-port" {
-  default = 8081
+  default = 80
 }
 
 variable "lb-servvice-group-routing-method" {
@@ -78,7 +76,7 @@ variable "auto-scale-termination-policy" {
 }
 
 variable "auto-scale-lb-service-port" {
-  default = 8081
+  default = 80
 }
 
 variable "auto-scale-lb-service-health-check-type" {
