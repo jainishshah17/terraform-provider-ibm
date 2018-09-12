@@ -1,4 +1,4 @@
 #ip_address - cluster address
-output "cluster_address" {
-  value = "http://${ibm_lb.local_lb.ip_address}"
+output "art_address" {
+  value = "http://${ibm_lb.art_local_lb.ip_address}"
 }

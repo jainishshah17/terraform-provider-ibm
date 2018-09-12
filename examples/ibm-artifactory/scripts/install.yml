@@ -1,0 +1,12 @@
+#cloud-config
+write_files:
+  - path: /tmp/tomcat-users.xml
+    content: |
+      tesing done
+runcmd:
+  # Set random Tomcat admin password.
+  - echo "$db_user" >> /tmp/done.txt
+  - echo "$db_password" >> /tmp/done.txt
+  - echo "$db_name" >> /tmp/done.txt
+  - echo "$db_url" >> /tmp/done.txt
+  - echo "done!" >> /tmp/done.txt

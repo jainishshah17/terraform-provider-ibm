@@ -1,5 +1,24 @@
 variable "ssh_public_key" {
-  default = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDgyWsLo603o43OxTOXswmNAUCA9eacIzVwetXqw7jvLxVRfyiLSLUFbqqa1pB24Z8caMGjXQcXt4fk1muRg2CJcND/YqjXn9jbclR7gl8k0mlpwLPhmi12NGHROLGShhpwO7W4daZpXuBKxs4yEMVBOjCjnIwXFGv6DetznjiQeRxOO8MYqRXgyr2vh231c6adhL1TVj7d/6HuJVdNT15lx+ooBiCNtov0Kwp+ceRoh37ypsuxS6OuAcc1CgKgV2h8I7XOJlKDxXMcGClO2w47q8TZwtVaAYcT01yUHkjgrM/BwuT+IdJprZ2NHGXwcC/sAvtMn/NbrqxxgURYDbMx jshah@roambee.com"
+}
+
+variable "master_key" {
+  default = "35767fa0164bac66b6cccb8880babefb"
+}
+
+variable "database_url" {
+  default = "35.232.47.144:3306"
+}
+
+variable "database_name" {
+  default = "artdb"
+}
+
+variable "database_user" {
+  default = "artifactory"
+}
+
+variable "database_password" {
+  default = "password"
 }
 
 variable "ssh-label" {
@@ -35,7 +54,7 @@ variable "lb-servvice-group-routing-allocation" {
 }
 
 variable "auto-scale-name" {
-  default = "sample-http-cluster"
+  default = "art-cluster"
 }
 
 variable "auto-scale-region" {
@@ -67,11 +86,11 @@ variable "auto-scale-lb-service-health-check-type" {
 }
 
 variable "vm-hostname" {
-  default = "virtual-guest"
+  default = "artifactory"
 }
 
 variable "vm-domain" {
-  default = "example.com"
+  default = "art.com"
 }
 
 variable "vm-cores" {
@@ -91,7 +110,7 @@ variable "vm-post-install-script-uri" {
 }
 
 variable "scale-policy-name" {
-  default = "scale-policy"
+  default = "art-scale-policy"
 }
 
 variable "scale-policy-type" {
