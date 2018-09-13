@@ -12,11 +12,3 @@ write_files:
     permissions: 0644
     content: |
       ${master_key}
-  - path: /etc/pki/tls/certs/result.pem
-    permissions: 0777
-    content: |
-      ${ssl_certificate}
-  - path: /etc/pki/tls/private/result.key
-    permissions: 0777
-    content: |
-      ${ssl_certificate_key}
