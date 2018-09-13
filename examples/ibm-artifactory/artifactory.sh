@@ -60,12 +60,12 @@ cat <<EOF >/etc/nginx/nginx.conf
     proxy_buffers 40 32k;
     proxy_busy_buffers_size 64k;
     proxy_temp_file_write_size 250m;
-    proxy_http_version 1.1;
+    proxy_http_version 1.0;
     client_body_buffer_size 128k;
     include    /etc/nginx/conf.d/*.conf;
     default_type  application/octet-stream;
     log_format  main  '\$remote_addr - \$remote_user [\$time_local] "\$request" '
-    '\$status \$body_bytes_sent "$\http_referer" '
+    '\$status \$body_bytes_sent "\$http_referer" '
     '"\$http_user_agent" "\$http_x_forwarded_for"';
     access_log  /var/log/nginx/access.log  main;
     sendfile        on;
