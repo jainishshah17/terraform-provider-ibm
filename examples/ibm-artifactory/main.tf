@@ -61,6 +61,11 @@ data "template_file" "art_init" {
     db_name = "${var.database_name}"
     db_url = "${var.database_url}"
     master_key = "${var.master_key}"
+    ssl_certificate = "${var.ssl_certificate}"
+    ssl_certificate_key = "${var.ssl_certificate_key}"
+    certificate_domain = "${var.certificate_domain}"
+    artifactory_server_name = "${var.artifactory_server_name}"
+    EXTRA_JAVA_OPTS = "${var.extra_java_options}"
   }
 }
 
