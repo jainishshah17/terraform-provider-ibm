@@ -80,7 +80,7 @@ variable "auto-scale-lb-service-port" {
 }
 
 variable "auto-scale-lb-service-health-check-type" {
-  default = "HTTP"
+  default = "HTTP-CUSTOM"
 }
 
 variable "vm-hostname" {
@@ -92,7 +92,7 @@ variable "vm-domain" {
 }
 
 variable "vm-cores" {
-  default = 1
+  default = 4
 }
 
 variable "vm-memory" {

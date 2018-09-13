@@ -34,6 +34,9 @@ resource "ibm_compute_autoscale_group" "art-cluster" {
 
   health_check = {
     type = "${var.auto-scale-lb-service-health-check-type}"
+    custom_method = "GET"
+    custom_response = "200"
+    custom_request = "/artifactory/webapp/#/login"
   }
 
   virtual_guest_member_template = {
