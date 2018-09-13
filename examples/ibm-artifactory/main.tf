@@ -52,6 +52,36 @@ resource "ibm_compute_autoscale_group" "art-cluster" {
   }
 }
 
+resource "ibm_compute_autoscale_group" "art-cluster-member" {
+  name                 = "${var.auto-scale-name}"
+  regional_group       = "${var.auto-scale-region}"
+  cooldown             = "${var.auto-scale-cooldown}"
+  minimum_member_count = "${var.auto-scale-minimum-member-count}"
+  maximum_member_count = "${var.auto-scale-maximumm-member-count}"
+  termination_policy   = "${var.auto-scale-termination-policy}"
+  virtual_server_id    = "${ibm_lb_service_group.art_lb_service_group.id}"
+  port                 = "${var.auto-scale-lb-service-port}"
+
+  health_check = {
+    type = "${var.auto-scale-lb-service-health-check-type}"
+    custom_method = "GET"
+    custom_response = "200"
+    custom_request = "/artifactory/api/system/version"
+  }
+
+  virtual_guest_member_template = {
+    hostname                = "${var.vm-hostname}"
+    domain                  = "${var.vm-domain}"
+    cores                   = "${var.vm-cores}"
+    memory                  = "${var.vm-memory}"
+    os_reference_code       = "${var.vm-os-reference-code}"
+    datacenter              = "${var.datacenter}"
+    ssh_key_ids             = ["${ibm_compute_ssh_key.ssh_key.id}"]
+    post_install_script_uri = "${var.vm-post-install-script-uri}"
+    user_metadata           = "${data.template_file.art_init_member.rendered}"
+  }
+}
+
 data "template_file" "art_init" {
   template = "${file("scripts/install.yml")}"
 
@@ -66,6 +96,25 @@ data "template_file" "art_init" {
     certificate_domain = "${var.certificate_domain}"
     artifactory_server_name = "${var.artifactory_server_name}"
     EXTRA_JAVA_OPTS = "${var.extra_java_options}"
+    IS_PRIMARY = "true"
+  }
+}
+
+data "template_file" "art_init_member" {
+  template = "${file("scripts/install.yml")}"
+
+  vars {
+    db_user = "${var.database_user}"
+    db_password = "${var.database_password}"
+    db_name = "${var.database_name}"
+    db_url = "${var.database_url}"
+    master_key = "${var.master_key}"
+    ssl_certificate = "${var.ssl_certificate}"
+    ssl_certificate_key = "${var.ssl_certificate_key}"
+    certificate_domain = "${var.certificate_domain}"
+    artifactory_server_name = "${var.artifactory_server_name}"
+    EXTRA_JAVA_OPTS = "${var.extra_java_options}"
+    IS_PRIMARY = "false"
   }
 }
 

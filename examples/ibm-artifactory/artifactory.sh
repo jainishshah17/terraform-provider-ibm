@@ -110,15 +110,6 @@ server {
 }
 EOF
 
-cat <<EOF >/var/opt/jfrog/artifactory/etc/ha-node.properties
-  node.id=art1
-  artifactory.ha.data.dir=/var/opt/jfrog/artifactory/data
-  context.url=http://127.0.0.1:8081/artifactory
-  membership.port=10001
-  hazelcast.interface=172.25.0.3
-  primary=true
-EOF
-
 mkdir -p /var/opt/jfrog/artifactory/etc/security
 
 HOSTNAME=$(hostname)
