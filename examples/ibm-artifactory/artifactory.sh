@@ -126,6 +126,8 @@ sed -i -e "s/art1/art-$(date +%s$RANDOM)/" /var/opt/jfrog/artifactory/etc/ha-nod
 sed -i -e "s/127.0.0.1/$HOSTNAME/" /var/opt/jfrog/artifactory/etc/ha-node.properties
 sed -i -e "s/172.25.0.3/$HOSTNAME/" /var/opt/jfrog/artifactory/etc/ha-node.properties
 
+mv -f /etc/pki/tls/certs/example.pem /etc/pki/tls/certs/cert.pem
+mv -f /etc/pki/tls/private/example.key /etc/pki/tls/private/cert.key
 # cat /etc/pki/tls/certs/result.pem | sed 's/CERTIFICATE----- /CERTIFICATE-----\n/g' | sed 's/-----END/\n-----END/' > temp.pem
 # mv -f temp.pem /etc/pki/tls/certs/cert.pem
 # cat /etc/pki/tls/private/result.key | sed 's/KEY----- /KEY-----\n/g' | sed 's/-----END/\n-----END/'  > temp.key
