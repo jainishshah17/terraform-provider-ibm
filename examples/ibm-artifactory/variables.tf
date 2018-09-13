@@ -80,6 +80,10 @@ variable "auto-scale-name" {
   default = "art-cluster"
 }
 
+variable "auto-scale-member-name" {
+  default = "art-cluster-member"
+}
+
 variable "auto-scale-region" {
   default = "na-usa-central-1"
 }
@@ -110,6 +114,10 @@ variable "auto-scale-lb-service-health-check-type" {
 
 variable "vm-hostname" {
   default = "artifactory"
+}
+
+variable "vm-hostname-member" {
+  default = "artifactory-member"
 }
 
 variable "vm-domain" {

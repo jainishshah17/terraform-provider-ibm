@@ -3,7 +3,7 @@ provider "ibm" {}
 # Create a new ssh key 
 resource "ibm_compute_ssh_key" "ssh_key" {
   label      = "${var.ssh-label}"
-  notes      = "for scale group"
+  notes      = "For Artifactory HA Cluster"
   public_key = "${var.ssh_public_key}"
 }
 
@@ -22,12 +22,12 @@ resource "ibm_lb_service_group" "art_lb_service_group" {
   allocation       = "${var.lb-servvice-group-routing-allocation}"
 }
 
-resource "ibm_compute_autoscale_group" "art-cluster" {
+resource "ibm_compute_autoscale_group" "art-primary" {
   name                 = "${var.auto-scale-name}"
   regional_group       = "${var.auto-scale-region}"
   cooldown             = "${var.auto-scale-cooldown}"
-  minimum_member_count = "${var.auto-scale-minimum-member-count}"
-  maximum_member_count = "${var.auto-scale-maximumm-member-count}"
+  minimum_member_count = "1"
+  maximum_member_count = "2"
   termination_policy   = "${var.auto-scale-termination-policy}"
   virtual_server_id    = "${ibm_lb_service_group.art_lb_service_group.id}"
   port                 = "${var.auto-scale-lb-service-port}"
@@ -52,8 +52,8 @@ resource "ibm_compute_autoscale_group" "art-cluster" {
   }
 }
 
-resource "ibm_compute_autoscale_group" "art-cluster-member" {
-  name                 = "${var.auto-scale-name}"
+resource "ibm_compute_autoscale_group" "art-member" {
+  name                 = "${var.auto-scale-member-name}"
   regional_group       = "${var.auto-scale-region}"
   cooldown             = "${var.auto-scale-cooldown}"
   minimum_member_count = "${var.auto-scale-minimum-member-count}"
@@ -70,7 +70,7 @@ resource "ibm_compute_autoscale_group" "art-cluster-member" {
   }
 
   virtual_guest_member_template = {
-    hostname                = "${var.vm-hostname}"
+    hostname                = "${var.vm-hostname-member}"
     domain                  = "${var.vm-domain}"
     cores                   = "${var.vm-cores}"
     memory                  = "${var.vm-memory}"
@@ -123,7 +123,7 @@ resource "ibm_compute_autoscale_policy" "art-cluster-policy" {
   scale_type     = "${var.scale-policy-type}"
   scale_amount   = "${var.scale-policy-scale-amount}"
   cooldown       = "${var.scale-policy-cooldown}"
-  scale_group_id = "${ibm_compute_autoscale_group.art-cluster.id}"
+  scale_group_id = "${ibm_compute_autoscale_group.art-member.id}"
 
   triggers = {
     type = "RESOURCE_USE"
