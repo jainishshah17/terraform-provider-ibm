@@ -5,6 +5,7 @@
 * Basic knowledge of IBM Public Cloud
 * Predefined Keys (Bluemix API Key, SoftLayer API Key)
 * Basic knowledge of Artifactory
+* Database (MySQL/Postgres/MsSQL)
 * Learn about [system requirements for Artifactory](https://www.jfrog.com/confluence/display/RTF/System+Requirements#SystemRequirements-RecommendedHardware)
 * Learn more about Terraform IBM provider follow: https://github.com/IBM-Cloud/terraform-provider-ibm
 
