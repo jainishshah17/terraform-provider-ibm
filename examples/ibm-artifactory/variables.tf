@@ -132,6 +132,10 @@ variable "vm-memory" {
   default = 4096
 }
 
+variable "vm-disk-size" {
+  default = 250
+}
+
 variable "vm-os-reference-code" {
   default = "UBUNTU_14_64"
 }
