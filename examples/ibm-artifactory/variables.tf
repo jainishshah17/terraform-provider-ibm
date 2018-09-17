@@ -133,7 +133,8 @@ variable "vm-memory" {
 }
 
 variable "vm-disk-size" {
-  default = 250
+  description = "Disk size for each instance"
+  default = 25
 }
 
 variable "vm-os-reference-code" {
