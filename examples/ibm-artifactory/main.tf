@@ -45,7 +45,7 @@ resource "ibm_compute_autoscale_group" "art-primary" {
     cores                   = "${var.vm-cores}"
     memory                  = "${var.vm-memory}"
     os_reference_code       = "${var.vm-os-reference-code}"
-    disks                   = "${var.vm-disk-size}"
+    disks                   = ["${var.vm-disk-size}"]
     datacenter              = "${var.datacenter}"
     ssh_key_ids             = ["${ibm_compute_ssh_key.ssh_key.id}"]
     post_install_script_uri = "${var.vm-post-install-script-uri}"
@@ -76,7 +76,7 @@ resource "ibm_compute_autoscale_group" "art-member" {
     cores                   = "${var.vm-cores}"
     memory                  = "${var.vm-memory}"
     os_reference_code       = "${var.vm-os-reference-code}"
-    disks                   = "${var.vm-disk-size}"
+    disks                   = ["${var.vm-disk-size}"]
     datacenter              = "${var.datacenter}"
     ssh_key_ids             = ["${ibm_compute_ssh_key.ssh_key.id}"]
     post_install_script_uri = "${var.vm-post-install-script-uri}"
