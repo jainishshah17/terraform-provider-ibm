@@ -1,25 +1,31 @@
 provider "ibm" {}
 
-# Create a new ssh key 
+# Create a new ssh key
 resource "ibm_compute_ssh_key" "ssh_key" {
   label      = "${var.ssh-label}"
-  notes      = "For Artifactory HA Cluster"
+  notes      = "SSH key for Artifactory HA Cluster"
   public_key = "${var.ssh_public_key}"
 }
 
-resource "ibm_lb" "art_local_lb" {
+resource "ibm_compute_ssl_certificate" "ssl_cert" {
+  certificate = "${file(var.ssl_certificate)}"
+  private_key = "${file(var.ssl_certificate_key)}"
+}
+
+resource "ibm_lb" "art_lb" {
   connections = "${var.lb-connections}"
   datacenter  = "${var.datacenter}"
   ha_enabled  = false
   dedicated   = "${var.lb-dedicated}"
+  security_certificate_id = "${ibm_compute_ssl_certificate.ssl_cert.id}"
 }
 
 resource "ibm_lb_service_group" "art_lb_service_group" {
-  port             = "${var.lb-servvice-group-port}"
-  routing_method   = "${var.lb-servvice-group-routing-method}"
-  routing_type     = "${var.lb-servvice-group-routing-type}"
-  load_balancer_id = "${ibm_lb.art_local_lb.id}"
-  allocation       = "${var.lb-servvice-group-routing-allocation}"
+  port             = "${var.lb-service-group-port}"
+  routing_method   = "${var.lb-service-group-routing-method}"
+  routing_type     = "${var.lb-service-group-routing-type}"
+  load_balancer_id = "${ibm_lb.art_lb.id}"
+  allocation       = "${var.lb-service-group-routing-allocation}"
 }
 
 resource "ibm_compute_autoscale_group" "art-primary" {
@@ -93,8 +99,8 @@ data "template_file" "art_init" {
     db_name = "${var.database_name}"
     db_url = "${var.database_url}"
     master_key = "${var.master_key}"
-    ssl_certificate = "${var.ssl_certificate}"
-    ssl_certificate_key = "${var.ssl_certificate_key}"
+//    ssl_certificate = "${var.ssl_cert}"
+//    ssl_certificate_key = "${var.ssl_cert_key}"
     certificate_domain = "${var.certificate_domain}"
     artifactory_server_name = "${var.artifactory_server_name}"
     EXTRA_JAVA_OPTS = "${var.extra_java_options}"
@@ -111,8 +117,8 @@ data "template_file" "art_init_member" {
     db_name = "${var.database_name}"
     db_url = "${var.database_url}"
     master_key = "${var.master_key}"
-    ssl_certificate = "${var.ssl_certificate}"
-    ssl_certificate_key = "${var.ssl_certificate_key}"
+//    ssl_certificate = "${var.ssl_cert}"
+//    ssl_certificate_key = "${var.ssl_cert_key}"
     certificate_domain = "${var.certificate_domain}"
     artifactory_server_name = "${var.artifactory_server_name}"
     EXTRA_JAVA_OPTS = "${var.extra_java_options}"

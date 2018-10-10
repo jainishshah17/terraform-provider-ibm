@@ -76,13 +76,13 @@ cat <<EOF >/etc/nginx/nginx.conf
 EOF
 
 cat <<EOF >/etc/nginx/conf.d/artifactory.conf
-ssl_certificate      /etc/pki/tls/certs/cert.pem;
-ssl_certificate_key  /etc/pki/tls/private/cert.key;
-ssl_session_cache shared:SSL:1m;
-ssl_prefer_server_ciphers   on;
+#ssl_certificate      /etc/pki/tls/certs/cert.pem;
+#ssl_certificate_key  /etc/pki/tls/private/cert.key;
+#ssl_session_cache shared:SSL:1m;
+#ssl_prefer_server_ciphers   on;
 ## server configuration
 server {
-  listen 443 ssl;
+#  listen 443 ssl;
   listen 80 ;
   server_name ~(?<repo>.+)\\.artifactory artifactory;
   if (\$http_x_forwarded_proto = '') {
