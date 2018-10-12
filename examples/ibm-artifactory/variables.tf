@@ -74,6 +74,11 @@ variable "artifactory_server_name" {
   default = "artifactory"
 }
 
+variable "install_script_path" {
+  description = "Change script to \"scripts/install_with_s3.yml\" if using IBM Object Storage."
+  default = "scripts/install.yml"
+}
+
 variable "ssh-label" {
   default = "ssh_key_scale_group"
 }

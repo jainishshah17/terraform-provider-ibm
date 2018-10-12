@@ -91,7 +91,7 @@ resource "ibm_compute_autoscale_group" "art-member" {
 }
 
 data "template_file" "art_init" {
-  template = "${file("scripts/install.yml")}"
+  template = "${file(var.install_script_path)}"
 
   vars {
     db_user = "${var.database_user}"
@@ -113,7 +113,7 @@ data "template_file" "art_init" {
 }
 
 data "template_file" "art_init_member" {
-  template = "${file("scripts/install.yml")}"
+  template = "${file(var.install_script_path)}"
 
   vars {
     db_user = "${var.database_user}"

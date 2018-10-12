@@ -59,6 +59,28 @@
 * Turn off daily backups. Read Documentation provided [here](https://www.jfrog.com/confluence/display/RTF/Managing+Backups).
 * Use an SSL Certificate with a valid wildcard to your artifactory as docker registry with subdomain method.
 
+### Steps to use IBM Object Storage with Artifactory  
+**Note**: [terraform-provider-ibm](https://github.com/IBM-Cloud/terraform-provider-ibm) does not support creating object_storage_account and s3_bucket using terraform. 
+
+1. Create/Order Object Storage Account in IBM Cloud.
+2. Create Storage Bucket. e.g `art-ent`
+3. Create Access/Secret keys to access bucket. 
+4. Get Public Authentication Endpoint to access bucket. e.g `s3-api.dal-us-geo.objectstorage.softlayer.net`
+5. Pass this values in variables `s3_access_key`, `s3_secret_key`, `s3_endpoint` and `s3_bucket_name`
+6. Change `install_script_path` from `scripts/install.yml` to `scripts/install_with_s3.yml` 
+7. Run the `terraform init` command. This will install the required plugin for the ibm provider.
+8. Run the `terraform plan` command.
+9. Run the `terraform apply` command to deploy Artifactory Enterprise cluster on ibm cloud
+    **Note**: it takes approximately 15 minutes to bring up the cluster.
+10. You will receive LB URL to access Artifactory. By default, this template starts only one node in the Artifactory cluster. 
+   It takes 7-10 minutes for Artifactory to start and to attach the instance to the LB.The output can be viewed as:
+    ```
+    Outputs:
+    
+    artifactory_url = http://198.23.117.180
+    ```
+11. Access the Artifactory UI using LB URL provided in outputs.
+
 ### Steps to setup Artifactory as secure docker registry
 Considering you have SSL certificate for `*.jfrog.team`
 1. Pass your SSL Certificate in variable `ssl_certificate` as string
@@ -72,7 +94,7 @@ Considering you have SSL certificate for `*.jfrog.team`
 ### Steps to upgrade Artifactory Version
 1. Change the value of `artifactory_version` from old version to new Artifactory version you want to deploy. for e.g. `5.8.1` to `5.8.2`.
 
-2. Run command `terraform apply -var 'secondary_node_count=2' -ver 'artifactory_version=5.8.2'`.
+2. Run command `terraform apply -var 'auto-scale-minimum-member-count=2' -ver 'artifactory_version=5.8.2'`.
    You will see instances will get upgraded one by one. Depending on your cluster size it will take 20-30 minutes to update stack.
 
 ### Use Artifactory as backend
