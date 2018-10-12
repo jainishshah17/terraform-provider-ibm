@@ -41,7 +41,7 @@
     ```
     Outputs:
     
-    art_address = http://198.23.117.180
+    artifactory_url = http://198.23.117.180
     ```
 
 7. Access the Artifactory UI using LB URL provided in outputs.

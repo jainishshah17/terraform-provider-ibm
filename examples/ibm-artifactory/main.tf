@@ -105,6 +105,10 @@ data "template_file" "art_init" {
     artifactory_server_name = "${var.artifactory_server_name}"
     EXTRA_JAVA_OPTS = "${var.extra_java_options}"
     IS_PRIMARY = "true"
+    s3_access_key = "${var.s3_access_key}"
+    s3_secret_key = "${var.s3_secret_key}"
+    s3_endpoint = "${var.s3_endpoint}"
+    s3_bucket_name = "${var.s3_bucket_name}"
   }
 }
 
@@ -123,6 +127,10 @@ data "template_file" "art_init_member" {
     artifactory_server_name = "${var.artifactory_server_name}"
     EXTRA_JAVA_OPTS = "${var.extra_java_options}"
     IS_PRIMARY = "false"
+    s3_access_key = "${var.s3_access_key}"
+    s3_secret_key = "${var.s3_secret_key}"
+    s3_endpoint = "${var.s3_endpoint}"
+    s3_bucket_name = "${var.s3_bucket_name}"
   }
 }
 

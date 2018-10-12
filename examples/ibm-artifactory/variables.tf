@@ -1,22 +1,46 @@
 variable "ssh_public_key" {
+  description = "SSH public key for each VMs."
 }
 
 variable "master_key" {
+  description = "Master key for Artifactory cluster. Generate master.key using command '$openssl rand -hex 16'"
   default = "35767fa0164bac66b6cccb8880babefb"
 }
 
 variable "database_url" {
+  description = "Database Connection URL. e.g my.databse.com:3306"
 }
 
 variable "database_name" {
+  description = "Database name"
+  default = "artdb"
 }
 
 variable "database_user" {
+  description = "Database user name"
   default = "artifactory"
 }
 
 variable "database_password" {
+  description = "Database password"
   default = "password"
+}
+
+variable "s3_access_key" {
+  description = "Provide Access key to access S3 bucket."
+}
+
+variable "s3_secret_key" {
+  description = "Provide Secret key to access S3 bucket."
+}
+
+variable "s3_endpoint" {
+  description = "Provide IBM cloud object storage endpoint url. e.g. s3-api.dal-us-geo.objectstorage.softlayer.net"
+}
+
+variable "s3_bucket_name" {
+  description = "Provide S3 bucket name."
+  default = "art-ent"
 }
 
 variable "extra_java_options" {
@@ -31,6 +55,14 @@ variable "ssl_certificate" {
 variable "ssl_certificate_key" {
   description = "Provide your SSL Certificate key"
 }
+
+//variable "ssl_cert" {
+//  description = "To use Artifactory as docker registry you need to provide wild card valid Certificate. Provide your SSL Certificate."
+//}
+//
+//variable "ssl_cert_key" {
+//  description = "Provide your SSL Certificate key"
+//}
 
 variable "certificate_domain" {
   description = "Provide your Certificate Domain Name. For e.g jfrog.team for certificate with *.jfrog.team"
@@ -119,7 +151,7 @@ variable "vm-hostname-member" {
 }
 
 variable "vm-domain" {
-  default = "art.com"
+  default = "jfrog.team"
 }
 
 variable "vm-cores" {

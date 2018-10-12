@@ -21,3 +21,41 @@ write_files:
       membership.port=10001
       hazelcast.interface=172.25.0.3
       primary=${IS_PRIMARY}
+  - path: /var/opt/jfrog/artifactory/etc/binarystore.xml
+    permissions: 0644
+    content: |
+      <config version="2">
+          <chain> <!--template="cluster-s3"-->
+              <provider id="cache-fs-eventual-s3" type="cache-fs">
+                  <provider id="sharding-cluster-eventual-s3" type="sharding-cluster">
+                      <sub-provider id="eventual-cluster-s3" type="eventual-cluster">
+                          <provider id="retry-s3" type="retry">
+                              <provider id="s3" type="s3"/>
+                          </provider>
+                      </sub-provider>
+                      <dynamic-provider id="remote-s3" type="remote"/>
+                  </provider>
+              </provider>
+          </chain>
+          <provider id="sharding-cluster-eventual-s3" type="sharding-cluster">
+              <readBehavior>crossNetworkStrategy</readBehavior>
+              <writeBehavior>crossNetworkStrategy</writeBehavior>
+              <redundancy>2</redundancy>
+              <property name="zones" value="local,remote"/>
+          </provider>
+          <provider id="remote-s3" type="remote">
+              <zone>remote</zone>
+          </provider>
+          <provider id="eventual-cluster-s3" type="eventual-cluster">
+              <zone>local</zone>
+          </provider>
+          <provider id="s3" type="s3">
+              <identity>${s3_access_key}</identity>
+              <credential>${s3_secret_key}</credential>
+              <endpoint>${s3_endpoint}</endpoint>
+              <bucketName>${s3_bucket_name}</bucketName>
+              <property name="s3service.disable-dns-buckets" value="true"></property>
+              <property name="xmlparser.sanitize-listings" value="false"/>
+              <property name="storage-service.request-signature-version" value="AWS4-HMAC-SHA256"/>
+          </provider>
+      </config>
