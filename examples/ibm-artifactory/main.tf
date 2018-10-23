@@ -17,6 +17,7 @@ resource "ibm_lb" "art_lb" {
   datacenter  = "${var.datacenter}"
   ha_enabled  = false
   dedicated   = "${var.lb-dedicated}"
+  ssl_offload = true
   security_certificate_id = "${ibm_compute_ssl_certificate.ssl_cert.id}"
 }
 
